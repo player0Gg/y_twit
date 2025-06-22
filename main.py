@@ -10,14 +10,14 @@ app.include_router(user.user_router, tags=["User"])
 # Разрешаем доступ фронту (например, Next.js на localhost:3000)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*", "http://26.165.120.232:3000"],  # можно временно поставить ["*"]
+    allow_origins=["*"],  # можно временно поставить ["*"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Простой маршрут
-@app.get("/api/hello")
+@app.get("/api/auth/register")
 def hello():
     return {"message": "Привет от FastAPI!"}
 

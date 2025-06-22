@@ -13,7 +13,7 @@ user_router = APIRouter()
 async def get_user(current_user: User=Depends(get_current_user), db: AsyncSession = Depends(database)):
     return await get_user_by_id(current_user.id, db)
 
-@user_router.post("/api/register")
+@user_router.post("/api/auth/register")
 async def create_user_endpoint(form: User_cr, db: AsyncSession = Depends(database)):
     return await create_user(form, db)
 
