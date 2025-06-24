@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Text
 from db import Base
 
 class User(Base):
@@ -9,4 +9,4 @@ class User(Base):
     email = Column(String(100), unique=True, index=True)
     password = Column(String(100))
     avatar = Column(String(255), nullable=True)
-    token = Column(String(255), nullable=True)
+    token = Column(Text, nullable=True) 

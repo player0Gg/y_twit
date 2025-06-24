@@ -1,27 +1,36 @@
 from fastapi import FastAPI
-from router import login, user
 from fastapi.middleware.cors import CORSMiddleware
+from router.user import user_router
+from router.login import login_router
 
-app = FastAPI(docs_url="/")
+app = FastAPI()
 
-app.include_router(login.login_router, tags=["Auth"])
-app.include_router(user.user_router, tags=["User"])
-
-# Разрешаем доступ фронту (например, Next.js на localhost:3000)
+# CORS настройки - ВАЖНО: добавить ДО всех роутеров
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # можно временно поставить ["*"]
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:8080", 
+        "http://26.165.120.232:3000",
+        "http://127.0.0.1:8080",
+        "http://localhost:5173",  # Vite dev server
+        "http://127.0.0.1:5173",
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=[
+        "Authorization",
+        "Content-Type",
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Origin",
+        "Access-Control-Allow-Methods"
+    ],
 )
 
-# Простой маршрут
-@app.get("/api/auth/register")
-def hello():
-    return {"message": "Привет от FastAPI!"}
+# Добавляете ваши роутеры ПОСЛЕ CORS middleware
+app.include_router(user_router)
+app.include_router(login_router)
 
-# Можно добавить другие маршруты здесь же
-@app.get("/api/user")
-def get_user():
-    return {"username": "playerGg", "status": "active"}
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
