@@ -23,7 +23,7 @@ login_router = APIRouter(tags=['Login and Refresh token'])
 
 
 @login_router.post("/api/login")
-async def access_token(login_data: LoginRequest,db: AsyncSession = Depends(database)):
+async def access_token(login_data: LoginRequest, db: AsyncSession = Depends(database)):
     # Создаем объект, совместимый с OAuth2PasswordRequestForm
     class FormData:
         def __init__(self, username: str, password: str):
